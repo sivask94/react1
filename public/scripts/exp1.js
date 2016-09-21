@@ -1,8 +1,5 @@
 var CommentBox = React.createClass({
-	getInitialState: function() {
-    return {data: []};
-  },
-  componentDidMount: function() {
+	loadCommentsFromServer: function() {
     $.ajax({
       url: this.props.url,
       dataType: 'json',
@@ -15,6 +12,13 @@ var CommentBox = React.createClass({
       }.bind(this)
     });
   },
+  getInitialState: function() {
+    return {data: []};
+  },
+	componentDidMount: function() {
+this.loadCommentsFromServer();
+    setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+	},
   render: function() {
     return (
       <div className="commentBox">
@@ -46,9 +50,11 @@ var CommentList = React.createClass({
 var CommentForm = React.createClass({
   render: function() {
     return (
-      <div className="commentForm">
-        Hello, world! I am a CommentForm.
-      </div>
+      <form className="commentForm">
+        <input type="text" placeholder="Your name" />
+        <input type="text" placeholder="Say something..." />
+        <input type="submit" value="Post" />
+      </form>
     );
   }
 });
@@ -76,6 +82,6 @@ var data = [
   {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
 ];
 ReactDOM.render(
-  <CommentBox url="/api/comments" />,
+  <CommentBox url="/api/comments" pollInterval={2000} />,
   document.getElementById('content')
 );
