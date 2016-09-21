@@ -3,7 +3,7 @@ var CommentBox = React.createClass({
     return (
       <div className="commentBox">
        <h1>COMMENTS</h1>
-        <CommentList />
+        <CommentList data={this.props.data} />
         <CommentForm />
       </div>
     );
@@ -15,7 +15,7 @@ var CommentList = React.createClass({
     return (
       <div className="commentList">
          <Comment author="Pete Hunt">This is one comment</Comment>
-        <Comment author="Jordan Walke">This is *another* comment</Comment>
+        <Comment author="Jordan Walke">This is another comment</Comment>
       </div>
     );
   }
@@ -32,18 +32,28 @@ var CommentForm = React.createClass({
 });
 
 var Comment = React.createClass({
+	rawMarkup: function() {
+    var md = new Remarkable();
+    var rawMarkup = md.render(this.props.children.toString());
+    return { __html: rawMarkup };
+  },
   render: function() {
+  	 
     return (
       <div className="comment">
         <h2 className="commentAuthor">
           {this.props.author}
         </h2>
-        {this.props.children}
+         <span dangerouslySetInnerHTML={this.rawMarkup()} />
       </div>
     );
   }
 });
+var data = [
+  {id: 1, author: "Pete Hunt", text: "This is one comment"},
+  {id: 2, author: "Jordan Walke", text: "This is *another* comment"}
+];
 ReactDOM.render(
-  <CommentBox />,
+  <CommentBox data={data} />,
   document.getElementById('content')
 );
