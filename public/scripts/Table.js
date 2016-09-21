@@ -1,10 +1,21 @@
 
 var headers = ["Name", "Quantity", "Price"];
 
-var row1 = ["Rice", "10", "1000"];
-var row2 = ["Tomato", "20", "700"];
-var row3 = ["Onion", "15", "600"];
-var row4 = ["Wheat", "25", "900"];
+var rows = [["Rice", "10", "1000"],["Tomato", "20", "700"],["Onion", "15", "600"],["Wheat", "25", "900"]];
+
+var rowsArray = [{
+	name :"Rice",
+	quantity : "10",
+	price : "1000"
+}, {
+	quantity : "10",
+	name :"Rice",
+	price : "1000"
+}, {
+	quantity : "10",
+	price : "1000",
+	name :"Rice",
+}];
 
 
 var HeaderCell = React.createClass({
@@ -27,7 +38,7 @@ var TableHeader = React.createClass({
     }
 });
 
-var RowCell1 = React.createClass({
+var Cell = React.createClass({
     render() {
         return (
         	<span className="header-cell">{this.props.data}</span>
@@ -35,89 +46,31 @@ var RowCell1 = React.createClass({
     }
 });
 
-var RowCell2 = React.createClass({
+var Row = React.createClass({
     render() {
         return (
-        	<span className="header-cell">{this.props.data}</span>
-        );
-    }
-});
-
-var RowCell3 = React.createClass({
-    render() {
-        return (
-        	<span className="header-cell">{this.props.data}</span>
-        );
-    }
-});
-
-var RowCell4 = React.createClass({
-    render() {
-        return (
-        	<span className="header-cell">{this.props.data}</span>
-        );
-    }
-});
-
-
-
-var TableRow1 = React.createClass({
-    render() {
-        return (
-
         	<div>
-
-        	{this.props.row1.map(function(data, idx) {
-        			return <RowCell1 data={data}/>;
-        		})}
+        		{
+        			this.props.row.map(function(data, idx) {
+        				return <Cell data={data}/>;
+        			})
+        		}
         	</div>
-
-        	);
+    	);
     }
 });
 
-var TableRow2 = React.createClass({
+var TableRows =  React.createClass({
     render() {
         return (
-
         	<div>
-
-        	{this.props.row2.map(function(data, idx) {
-        			return <RowCell2 data={data}/>;
-        		})}
+        		{
+        			this.props.rows.map(function(data, idx) {
+        				return <Row row={data}/>;
+        			})
+        		}
         	</div>
-
-        	);
-    }
-});
-
-var TableRow3 = React.createClass({
-    render() {
-        return (
-
-        	<div>
-
-        	{this.props.row3.map(function(data, idx) {
-        			return <RowCell3 data={data}/>;
-        		})}
-        	</div>
-
-        	);
-    }
-});
-
-var TableRow4 = React.createClass({
-    render() {
-        return (
-
-        	<div>
-
-        	{this.props.row4.map(function(data, idx) {
-        			return <RowCell4 data={data}/>;
-        		})}
-        	</div>
-
-        	);
+    	);
     }
 });
 
@@ -127,10 +80,7 @@ var Table = React.createClass({
         return (
         	<div>
         		<TableHeader headers={headers}/>
-        		<TableRow1 row1={row1}/>
-        		<TableRow2 row2={row2}/>
-        		<TableRow3 row3={row3}/>
-        		<TableRow4 row4={row4}/>
+        		<TableRows rows={rows}/>
     		</div>
         );
     }
